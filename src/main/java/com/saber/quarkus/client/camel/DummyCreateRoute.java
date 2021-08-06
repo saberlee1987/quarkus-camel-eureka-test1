@@ -1,5 +1,6 @@
 package com.saber.quarkus.client.camel;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
@@ -7,6 +8,7 @@ import org.apache.camel.model.rest.RestBindingMode;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 
 @ApplicationScoped
@@ -14,6 +16,9 @@ public class DummyCreateRoute extends RouteBuilder {
 
     @ConfigProperty(name = "quarkus.camel.service.dummy.create")
     private String createDummyAddress;
+
+    @Inject
+    private ObjectMapper objectMapper;
 
     @Override
     public void configure() throws Exception {
@@ -33,6 +38,7 @@ public class DummyCreateRoute extends RouteBuilder {
                 .setHeader(Exchange.HTTP_METHOD,constant("POST"))
                 .setHeader(Exchange.CONTENT_TYPE,constant("application/json"))
                 .marshal().json(JsonLibrary.Jackson,PersonDto.class)
+                .log("Request for dummy create with body ===> ${in.body}")
                 .process(exchange -> {
                     exchange.getMessage().setHeader(Exchange.HTTP_PATH,"");
                 })
