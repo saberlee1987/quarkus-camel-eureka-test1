@@ -1,0 +1,27 @@
+quarkus:
+  application:
+    name: quarkus-eureka-client
+  http:
+    port: 8686
+    non-application-root-path: /actuators/eureka-client
+  eureka:
+    service-url:
+      default: http://localhost:8761/eureka
+    health-check-url: /actuators/eureka-client/health
+    status-page-url: /actuators/eureka-client/health
+  micrometer:
+    export:
+      prometheus:
+        path: /actuators/eureka-client/promethus
+
+  smallrye-openapi:
+    enable: true
+
+
+  camel:
+   api:
+     base-path: /services/camel
+     openapi-path: /v2/api-docs
+   service:
+     dummy:
+       create: http://dummy.restapiexample.com/api/v1/create
