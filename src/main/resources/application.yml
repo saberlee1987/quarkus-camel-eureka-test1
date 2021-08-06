@@ -1,6 +1,8 @@
 quarkus:
   application:
     name: quarkus-eureka-client
+    version: 1.0.0
+
   http:
     port: 8686
     non-application-root-path: /actuators/eureka-client
@@ -20,8 +22,9 @@ quarkus:
 
   smallrye-openapi:
     enable: true
-
-
+  consul:
+    host: consul
+    port: 8500
   camel:
    api:
      base-path: /services/camel
