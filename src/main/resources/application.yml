@@ -5,10 +5,14 @@ quarkus:
     port: 8686
     non-application-root-path: /actuators/eureka-client
   eureka:
-    service-url:
-      default: http://localhost:8761/eureka
+    host-name: localhost
     health-check-url: /actuators/eureka-client/health
     status-page-url: /actuators/eureka-client/health
+    prefer-ip-address: false
+    service-url:
+      default: http://${quarkus.eureka.host-name}:8761/eureka
+    vip-address: localhost
+
   micrometer:
     export:
       prometheus:
